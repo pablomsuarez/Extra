@@ -101,7 +101,11 @@
             const feedback = document.getElementById('feedback').value;
             const userEmail = document.getElementById('userEmail').value;
 
-            emailjs.send('service_7jpp7es', 'template_pvkuscg', {
+            // Ensure these values are correct
+            const serviceID = 'service_7jpp7es';
+            const templateID = 'template_pvkuscg';
+
+            emailjs.send(serviceID, templateID, {
                 feedback: feedback,
                 user_email: userEmail,
                 to_email: 'pablosuarez7170@gmail.com'
