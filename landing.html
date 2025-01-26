@@ -1,7 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        h1 {
+            font-size: 1.5em; /* Half the font size */
+            margin: 0 10px 0 0; /* Adjust margin */
+        }
+        input {
+            padding: 5px; /* Adjust padding */
+            font-size: 0.8em; /* Adjust font size */
+            color: #333;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            margin-right: 10px; /* Space between input and button */
+        }
+        button {
+            padding: 5px 10px; /* Adjust padding */
+            font-size: 0.8em; /* Adjust font size */
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        button:active {
+            background-color: #004494;
+            transform: translateY(0);
+        }
         .stackrank-container {
             display: flex;
             flex-direction: column;
@@ -17,9 +62,24 @@
             background-color: #f9f9f9;
             margin: 5px 0; /* Add margin between items */
         }
+        footer {
+            margin-top: auto;
+            padding: 10px;
+            font-size: 14px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ccc;
+            width: 100%;
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
+    <header>
+        <h1>What is going on with:</h1>
+        <input type="text" id="companyInput" placeholder="Enter text here" readonly>
+        <button id="submitButton">Submit</button>
+    </header>
     <div class="stackrank-container">
         <div class="stackrank-item">Item 1</div>
         <div class="stackrank-item">Item 2</div>
@@ -32,5 +92,62 @@
         <div class="stackrank-item">Item 9</div>
         <div class="stackrank-item">Item 10</div>
     </div>
+    <footer><a href="https://pablomsuarez.github.io/Extra/feedback.html">Product feedback</a></footer>
+
+    <script>
+        const companies = ["Apple", "Tesla", "Microsoft"];
+        let currentCompanyIndex = 0;
+        let currentCharIndex = 0;
+        const inputElement = document.getElementById("companyInput");
+        const submitButton = document.getElementById("submitButton");
+        let typingEffectActive = true;
+
+        function typeCompany() {
+            if (!typingEffectActive) return;
+            if (currentCharIndex < companies[currentCompanyIndex].length) {
+                inputElement.value += companies[currentCompanyIndex].charAt(currentCharIndex);
+                currentCharIndex++;
+                setTimeout(typeCompany, Math.random() * 150 + 100);
+            } else {
+                setTimeout(eraseCompany, 2000);
+            }
+        }
+
+        function eraseCompany() {
+            if (!typingEffectActive) return;
+            if (currentCharIndex > 0) {
+                inputElement.value = inputElement.value.slice(0, -1);
+                currentCharIndex--;
+                setTimeout(eraseCompany, Math.random() * 100 + 50);
+            } else {
+                currentCompanyIndex = (currentCompanyIndex + 1) % companies.length;
+                setTimeout(typeCompany, 500);
+            }
+        }
+
+        function handleSubmit() {
+            const companyName = inputElement.value;
+            window.location.href = `https://pablomsuarez.github.io/Extra/landing.html?company=${encodeURIComponent(companyName)}`;
+        }
+
+        typeCompany();
+
+        inputElement.addEventListener('focus', () => {
+            typingEffectActive = false;
+            inputElement.readOnly = false;
+            inputElement.classList.remove('placeholder');
+            inputElement.value = '';
+        });
+
+        inputElement.classList.add('placeholder');
+
+        submitButton.addEventListener('click', handleSubmit);
+
+        inputElement.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                handleSubmit();
+            }
+        });
+    </script>
 </body>
 </html>
