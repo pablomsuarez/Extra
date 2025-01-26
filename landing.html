@@ -121,6 +121,9 @@
         async function fetchNews() {
             try {
                 const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
                 displayNews(data.articles);
             } catch (error) {
