@@ -10,6 +10,7 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Open Sans', sans-serif;
+            background-color: #f9f9f9;
         }
         header {
             display: flex;
@@ -48,20 +49,32 @@
             background-color: #004494;
             transform: translateY(0);
         }
-        .stackrank-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .news-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
             margin: 20px 0;
         }
-        .stackrank-item {
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            margin: 5px 0; /* Add margin between items */
+        .news-article {
+            margin-bottom: 20px;
+        }
+        .news-article h2 {
+            font-size: 1.5em;
+            margin: 0 0 10px;
+        }
+        .news-article p {
+            font-size: 1em;
+            color: #333;
+        }
+        .news-article a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .news-article a:hover {
+            text-decoration: underline;
         }
         footer {
             margin-top: auto;
@@ -81,17 +94,8 @@
         <input type="text" id="companyInput" placeholder="Enter text here" readonly>
         <button id="submitButton">Submit</button>
     </header>
-    <div class="stackrank-container">
-        <div class="stackrank-item">Item 1</div>
-        <div class="stackrank-item">Item 2</div>
-        <div class="stackrank-item">Item 3</div>
-        <div class="stackrank-item">Item 4</div>
-        <div class="stackrank-item">Item 5</div>
-        <div class="stackrank-item">Item 6</div>
-        <div class="stackrank-item">Item 7</div>
-        <div class="stackrank-item">Item 8</div>
-        <div class="stackrank-item">Item 9</div>
-        <div class="stackrank-item">Item 10</div>
+    <div class="news-container" id="newsContainer">
+        <!-- News articles will be inserted here -->
     </div>
     <footer><a href="https://pablomsuarez.github.io/Extra/feedback.html">Product feedback</a></footer>
 
@@ -110,6 +114,39 @@
         if (companyName) {
             inputElement.value = companyName;
         }
+
+        const apiKey = 'eb3dda198cc142d488f22e37203ed86a'; // Your News API key
+        const apiUrl = `https://newsapi.org/v2/everything?q=Apple&sortBy=publishedAt&pageSize=10&apiKey=${apiKey}`;
+
+        async function fetchNews() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                displayNews(data.articles);
+            } catch (error) {
+                console.error('Error fetching news:', error);
+            }
+        }
+
+        function displayNews(articles) {
+            const newsContainer = document.getElementById('newsContainer');
+            newsContainer.innerHTML = '';
+
+            articles.forEach(article => {
+                const articleElement = document.createElement('div');
+                articleElement.classList.add('news-article');
+
+                articleElement.innerHTML = `
+                    <h2>${article.title}</h2>
+                    <p>${article.description}</p>
+                    <a href="${article.url}" target="_blank">Read more</a>
+                `;
+
+                newsContainer.appendChild(articleElement);
+            });
+        }
+
+        fetchNews();
 
         submitButton.addEventListener('click', handleSubmit);
 
