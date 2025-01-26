@@ -76,6 +76,12 @@
             background-color: #f9f9f9;
         }
     </style>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("hqhJbkKaAm5J7EeXl");
+        })();
+    </script>
 </head>
 <body>
     <h1>Product Feedback</h1>
@@ -87,8 +93,19 @@
     <script>
         document.getElementById('feedbackForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            alert('Thank you for your feedback!');
-            // Here you can add code to handle the form submission, e.g., send the data to a server
+            const feedback = document.getElementById('feedback').value;
+
+            emailjs.send('service_7jpp7es', 'template_pvkuscg', {
+                feedback: feedback,
+                to_email: 'pablosuarez7170@gmail.com'
+            })
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                alert('Thank you for your feedback!');
+            }, function(error) {
+                console.log('FAILED...', error);
+                alert('There was an error submitting your feedback. Please try again.');
+            });
         });
     </script>
 </body>
