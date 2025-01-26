@@ -116,7 +116,7 @@
         }
 
         const apiKey = 'eb3dda198cc142d488f22e37203ed86a'; // Your News API key
-        const apiUrl = `https://newsapi.org/v2/everything?q=Apple&sortBy=publishedAt&pageSize=10&apiKey=${apiKey}`;
+        const apiUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(companyName)}&sortBy=publishedAt&pageSize=10&apiKey=${apiKey}`;
 
         async function fetchNews() {
             try {
@@ -146,7 +146,9 @@
             });
         }
 
-        fetchNews();
+        if (companyName) {
+            fetchNews();
+        }
 
         submitButton.addEventListener('click', handleSubmit);
 
