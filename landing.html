@@ -7,6 +7,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
             margin: 0;
             font-family: 'Open Sans', sans-serif;
         }
@@ -95,51 +96,20 @@
     <footer><a href="https://pablomsuarez.github.io/Extra/feedback.html">Product feedback</a></footer>
 
     <script>
-        const companies = ["Apple", "Tesla", "Microsoft"];
-        let currentCompanyIndex = 0;
-        let currentCharIndex = 0;
         const inputElement = document.getElementById("companyInput");
         const submitButton = document.getElementById("submitButton");
-        let typingEffectActive = true;
-
-        function typeCompany() {
-            if (!typingEffectActive) return;
-            if (currentCharIndex < companies[currentCompanyIndex].length) {
-                inputElement.value += companies[currentCompanyIndex].charAt(currentCharIndex);
-                currentCharIndex++;
-                setTimeout(typeCompany, Math.random() * 150 + 100);
-            } else {
-                setTimeout(eraseCompany, 2000);
-            }
-        }
-
-        function eraseCompany() {
-            if (!typingEffectActive) return;
-            if (currentCharIndex > 0) {
-                inputElement.value = inputElement.value.slice(0, -1);
-                currentCharIndex--;
-                setTimeout(eraseCompany, Math.random() * 100 + 50);
-            } else {
-                currentCompanyIndex = (currentCompanyIndex + 1) % companies.length;
-                setTimeout(typeCompany, 500);
-            }
-        }
 
         function handleSubmit() {
             const companyName = inputElement.value;
             window.location.href = `https://pablomsuarez.github.io/Extra/landing.html?company=${encodeURIComponent(companyName)}`;
         }
 
-        typeCompany();
-
-        inputElement.addEventListener('focus', () => {
-            typingEffectActive = false;
-            inputElement.readOnly = false;
-            inputElement.classList.remove('placeholder');
-            inputElement.value = '';
-        });
-
-        inputElement.classList.add('placeholder');
+        // Get the company name from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const companyName = urlParams.get('company');
+        if (companyName) {
+            inputElement.value = companyName;
+        }
 
         submitButton.addEventListener('click', handleSubmit);
 
