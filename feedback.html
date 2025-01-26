@@ -103,6 +103,8 @@
             const serviceID = 'service_7jpp7es';
             const templateID = 'template_pvkuscg';
 
+            console.log('Sending feedback:', feedback);
+
             emailjs.send(serviceID, templateID, {
                 feedback: feedback,
                 to_email: 'pablosuarez7170@gmail.com'
