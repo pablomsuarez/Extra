@@ -90,7 +90,6 @@
 <body>
     <h1>Product Feedback</h1>
     <form id="feedbackForm">
-        <input type="email" id="userEmail" name="user_email" placeholder="Your Email" required>
         <textarea id="feedback" name="feedback" rows="5" placeholder="Your Feedback" required></textarea>
         <button type="submit">Submit</button>
     </form>
@@ -99,7 +98,6 @@
         document.getElementById('feedbackForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const feedback = document.getElementById('feedback').value;
-            const userEmail = document.getElementById('userEmail').value;
 
             // Ensure these values are correct
             const serviceID = 'service_7jpp7es';
@@ -107,7 +105,6 @@
 
             emailjs.send(serviceID, templateID, {
                 feedback: feedback,
-                user_email: userEmail,
                 to_email: 'pablosuarez7170@gmail.com'
             })
             .then(function(response) {
