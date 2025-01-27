@@ -116,24 +116,14 @@
             window.location.href = `https://pablomsuarez.github.io/Extra/landing.html?company=${encodeURIComponent(companyName)}`;
         }
 
-        // Get the company name from the URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const companyName = urlParams.get('company');
-        if (companyName) {
-            inputElement.value = companyName;
-        }
-
-        const apiKey = 'eb3dda198cc142d488f22e37203ed86a'; // Your News API key
-        const apiUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(companyName)}&sortBy=publishedAt&pageSize=10&apiKey=${apiKey}`;
+        submitButton.addEventListener("click", handleSubmit);
 
         async function fetchNews() {
             try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                displayNews(data.articles);
+                const response = await fetch('http://localhost:3000/news');
+                const articles = await response.json();
+                console.log('API Response:', articles); // Debugging: Log the API response
+                displayNews(articles);
             } catch (error) {
                 console.error('Error fetching news:', error);
             }
@@ -150,24 +140,14 @@
                 articleElement.innerHTML = `
                     <h2>${article.title}</h2>
                     <p>${article.description}</p>
-                    <a href="${article.url}" target="_blank">Read more</a>
+                    <a href="${article.link}" target="_blank">Read more</a>
                 `;
 
                 newsContainer.appendChild(articleElement);
             });
         }
 
-        if (companyName) {
-            fetchNews();
-        }
-
-        submitButton.addEventListener('click', handleSubmit);
-
-        inputElement.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                handleSubmit();
-            }
-        });
+        fetchNews();
     </script>
 </body>
 </html>
