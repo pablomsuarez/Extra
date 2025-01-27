@@ -6,33 +6,31 @@
         body {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             margin: 0;
             font-family: 'Open Sans', sans-serif;
             background-color: #f9f9f9;
+            padding: 20px;
         }
         header {
             display: flex;
             align-items: center;
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
-        h1 {
-            font-size: 1.5em; /* Half the font size */
+        h1, input, button {
+            font-size: 1em; /* Reduced font size */
             margin: 0 10px 0 0; /* Adjust margin */
         }
         input {
             padding: 5px; /* Adjust padding */
-            font-size: 0.8em; /* Adjust font size */
             color: #333;
             border: 2px solid #ccc;
             border-radius: 5px;
             background-color: #f0f0f0;
-            margin-right: 10px; /* Space between input and button */
         }
         button {
             padding: 5px 10px; /* Adjust padding */
-            font-size: 0.8em; /* Adjust font size */
             cursor: pointer;
             background-color: #007BFF;
             color: white;
