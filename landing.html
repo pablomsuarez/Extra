@@ -118,22 +118,24 @@
 
         submitButton.addEventListener("click", handleSubmit);
 
-        async function fetchNews() {
-            try {
-                const response = await fetch('http://localhost:3000/news');
-                const articles = await response.json();
-                console.log('API Response:', articles); // Debugging: Log the API response
-                displayNews(articles);
-            } catch (error) {
-                console.error('Error fetching news:', error);
-            }
-        }
-
-        function displayNews(articles) {
+        function displayMockNews() {
             const newsContainer = document.getElementById('newsContainer');
             newsContainer.innerHTML = '';
 
-            articles.forEach(article => {
+            const mockArticles = [
+                { title: 'Article 1', description: 'Description for article 1', link: '#' },
+                { title: 'Article 2', description: 'Description for article 2', link: '#' },
+                { title: 'Article 3', description: 'Description for article 3', link: '#' },
+                { title: 'Article 4', description: 'Description for article 4', link: '#' },
+                { title: 'Article 5', description: 'Description for article 5', link: '#' },
+                { title: 'Article 6', description: 'Description for article 6', link: '#' },
+                { title: 'Article 7', description: 'Description for article 7', link: '#' },
+                { title: 'Article 8', description: 'Description for article 8', link: '#' },
+                { title: 'Article 9', description: 'Description for article 9', link: '#' },
+                { title: 'Article 10', description: 'Description for article 10', link: '#' }
+            ];
+
+            mockArticles.forEach(article => {
                 const articleElement = document.createElement('div');
                 articleElement.classList.add('news-article');
 
@@ -147,7 +149,7 @@
             });
         }
 
-        fetchNews();
+        displayMockNews();
     </script>
 </body>
 </html>
