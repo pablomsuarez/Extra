@@ -1,33 +1,40 @@
+const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const url = 'https://news.google.com/search?q=Apple';
+const app = express();
+const port = 3000;
 
-async function fetchNews() {
+app.get('/news', async (req, res) => {
+    const companyName = req.query.company || 'Apple';
+    const url = `https://news.google.com/rss/search?q=${encodeURIComponent(companyName)}&hl=en-US&gl=US&ceid=US:en`;
+
     try {
         const { data } = await axios.get(url);
-        const $ = cheerio.load(data);
+        const $ = cheerio.load(data, { xmlMode: true });
         const articles = [];
 
-        $('article').each((index, element) => {
-            const title = $(element).find('h3').text();
-            const description = $(element).find('.xBbh9').text();
-            const link = $(element).find('a').attr('href');
+        $('item').each((index, element) => {
+            const title = $(element).find('title').text();
+            const description = $(element).find('description').text();
+            const link = $(element).find('link').text();
 
             if (title && description && link) {
                 articles.push({
                     title,
                     description,
-                    link: `https://news.google.com${link.substring(1)}` // Fix relative link
+                    link
                 });
             }
         });
 
-        return articles;
+        res.json(articles);
     } catch (error) {
         console.error('Error fetching news:', error);
-        return [];
+        res.status(500).json({ error: 'Error fetching news' });
     }
-}
+});
 
-module.exports = fetchNews;
+app.listen(port, () => {
+    console.log(`Proxy server running at http://localhost:${port}`);
+});
