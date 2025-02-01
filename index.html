@@ -105,10 +105,11 @@
         const ctx = canvas.getContext('2d');
 
         const gridSize = 20;
+        const rainbowColors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
         let snake = [
-            { x: 200, y: 200, color: '#006400' }, // Dark green
-            { x: 180, y: 200, color: '#228B22' }, // Forest green
-            { x: 160, y: 200, color: '#32CD32' }  // Lime green
+            { x: 200, y: 200, color: rainbowColors[0] }, // Red
+            { x: 180, y: 200, color: rainbowColors[1] }, // Orange
+            { x: 160, y: 200, color: rainbowColors[2] }  // Yellow
         ];
         let direction = { x: 1, y: 0 }; // Initial direction to the right
         let food = { x: 0, y: 0 };
@@ -116,11 +117,15 @@
         let score = 0;
         let gameOver = false;
         let foodCount = 0;
-
-        const rainbowColors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+        let lastFoodColor = null;
 
         function getRandomRainbowColor() {
-            return rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
+            let newColor;
+            do {
+                newColor = rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
+            } while (newColor === lastFoodColor);
+            lastFoodColor = newColor;
+            return newColor;
         }
 
         let foodColor = getRandomRainbowColor();
@@ -219,9 +224,9 @@
         function restartGame() {
             document.getElementById('gameOverScreen').style.display = 'none';
             snake = [
-                { x: 200, y: 200, color: '#006400' }, // Dark green
-                { x: 180, y: 200, color: '#228B22' }, // Forest green
-                { x: 160, y: 200, color: '#32CD32' }  // Lime green
+                { x: 200, y: 200, color: rainbowColors[0] }, // Red
+                { x: 180, y: 200, color: rainbowColors[1] }, // Orange
+                { x: 160, y: 200, color: rainbowColors[2] }  // Yellow
             ];
             direction = { x: 1, y: 0 }; // Reset direction to the right
             score = 0; // Reset score
