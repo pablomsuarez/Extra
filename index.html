@@ -109,6 +109,11 @@
             const canvasHeight = Math.floor(window.innerHeight / gridSize) * gridSize;
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
+
+            // Ensure food is within the new game area
+            if (food.x >= canvasWidth || food.y >= canvasHeight) {
+                food = getRandomFoodPosition();
+            }
         }
 
         function getRandomFoodPosition() {
@@ -254,7 +259,9 @@
 
         window.addEventListener('resize', () => {
             resizeCanvas();
-            food = getRandomFoodPosition();
+            if (food.x >= canvas.width || food.y >= canvas.height) {
+                food = getRandomFoodPosition();
+            }
         });
 
         resizeCanvas();
