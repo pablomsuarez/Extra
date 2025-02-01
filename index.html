@@ -51,7 +51,7 @@
             const gameOverLabel = document.getElementById('gameOverLabel');
             let gameStarted = false;
             let gamePaused = false;
-            let direction = { x: 0, y: 0 };
+            let direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
             const gridSize = 20;
             const gameSpeed = 10;
             let food = { x: 0, y: 0 };
@@ -135,6 +135,16 @@
                             pausedLabel.style.display = gamePaused ? 'block' : 'none';
                         }
                         break;
+                    case 's':
+                    case 'S':
+                        if (!gameStarted) {
+                            gameStarted = true;
+                            gamePaused = false;
+                            gameOverLabel.style.display = 'none';
+                            direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
+                            gameInterval = setInterval(gameLoop, 1000 / gameSpeed);
+                        }
+                        break;
                 }
             });
 
@@ -142,7 +152,6 @@
 
             resizeCanvas();
             food = getRandomFoodPosition();
-            let gameInterval = setInterval(gameLoop, 1000 / gameSpeed);
         });
     </script>
 </body>
