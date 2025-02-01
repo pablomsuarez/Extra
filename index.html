@@ -98,9 +98,18 @@
         let score = 0;
         let gameOver = false;
 
+        const foodColors = ['red', 'blue', 'yellow', 'purple', 'orange'];
+
+        function getRandomFoodColor() {
+            return foodColors[Math.floor(Math.random() * foodColors.length)];
+        }
+
+        let foodColor = getRandomFoodColor();
+
         function resetFood() {
             food.x = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
             food.y = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
+            foodColor = getRandomFoodColor();
         }
 
         function drawRoundedRect(ctx, x, y, width, height, radius) {
@@ -124,8 +133,8 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = 'red';
-            ctx.fillRect(food.x, food.y, gridSize, gridSize);
+            ctx.fillStyle = foodColor;
+            drawRoundedRect(ctx, food.x, food.y, gridSize, gridSize, 5);
 
             ctx.fillStyle = 'lime';
             snake.forEach(segment => drawRoundedRect(ctx, segment.x, segment.y, gridSize, gridSize, 5));
