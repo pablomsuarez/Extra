@@ -142,6 +142,7 @@
                     clearInterval(countdownInterval);
                     gamePaused = false;
                     gameStarted = true;
+                    direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
                 }
             }, 1000);
         }
