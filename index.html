@@ -92,14 +92,15 @@
         const finalScore = document.getElementById('finalScore');
 
         const gridSize = 20;
-        const stepSize = 5; // Smaller step size for smoother movement
+        const gridCount = 200; // 200 squares
+        const canvasSize = gridSize * gridCount;
         let snake = [
             { x: 200, y: 200 },
             { x: 180, y: 200 },
             { x: 160, y: 200 },
             { x: 140, y: 200 }
         ];
-        let direction = { x: stepSize, y: 0 }; // Start moving the snake to the right
+        let direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
         let food = { x: 0, y: 0 };
         let score = 0;
         let gamePaused = true;
@@ -108,13 +109,11 @@
         let foodEaten = 0;
 
         function resizeCanvas() {
-            const canvasWidth = Math.floor(window.innerWidth / gridSize) * gridSize;
-            const canvasHeight = Math.floor(window.innerHeight / gridSize) * gridSize;
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
+            canvas.width = canvasSize;
+            canvas.height = canvasSize;
 
             // Ensure food is within the new game area
-            if (food.x >= canvasWidth || food.y >= canvasHeight) {
+            if (food.x >= canvasSize || food.y >= canvasSize) {
                 food = getRandomFoodPosition();
             }
         }
@@ -123,8 +122,8 @@
             let position;
             do {
                 position = {
-                    x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
-                    y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize
+                    x: Math.floor(Math.random() * gridCount) * gridSize,
+                    y: Math.floor(Math.random() * gridCount) * gridSize
                 };
             } while (snake.some(segment => segment.x === position.x && segment.y === position.y));
             return position;
@@ -138,28 +137,8 @@
         }
 
         function drawFood() {
-            ctx.fillStyle = ctx.createPattern(createFoodPattern(), 'repeat');
+            ctx.fillStyle = 'red';
             ctx.fillRect(food.x, food.y, gridSize, gridSize);
-        }
-
-        function createFoodPattern() {
-            const patternCanvas = document.createElement('canvas');
-            patternCanvas.width = gridSize;
-            patternCanvas.height = gridSize;
-            const patternCtx = patternCanvas.getContext('2d');
-
-            patternCtx.fillStyle = 'darkgrey';
-            patternCtx.fillRect(0, 0, gridSize, gridSize);
-            patternCtx.strokeStyle = 'white';
-            patternCtx.lineWidth = 2;
-            patternCtx.beginPath();
-            patternCtx.moveTo(0, 0);
-            patternCtx.lineTo(gridSize, gridSize);
-            patternCtx.moveTo(gridSize, 0);
-            patternCtx.lineTo(0, gridSize);
-            patternCtx.stroke();
-
-            return patternCanvas;
         }
 
         function updateSnake() {
@@ -182,7 +161,7 @@
 
         function checkCollision() {
             const head = snake[0];
-            if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
+            if (head.x < 0 || head.x >= canvasSize || head.y < 0 || head.y >= canvasSize) {
                 return true;
             }
             for (let i = 1; i < snake.length; i++) {
@@ -232,7 +211,7 @@
                 { x: 160, y: 200 },
                 { x: 140, y: 200 }
             ];
-            direction = { x: stepSize, y: 0 };
+            direction = { x: gridSize, y: 0 };
             score = 0;
             foodEaten = 0;
             gameSpeed = 10; // Initial speed
@@ -250,16 +229,16 @@
             }
             switch (event.key) {
                 case 'ArrowUp':
-                    if (direction.y === 0) direction = { x: 0, y: -stepSize };
+                    if (direction.y === 0) direction = { x: 0, y: -gridSize };
                     break;
                 case 'ArrowDown':
-                    if (direction.y === 0) direction = { x: 0, y: stepSize };
+                    if (direction.y === 0) direction = { x: 0, y: gridSize };
                     break;
                 case 'ArrowLeft':
-                    if (direction.x === 0) direction = { x: -stepSize, y: 0 };
+                    if (direction.x === 0) direction = { x: -gridSize, y: 0 };
                     break;
                 case 'ArrowRight':
-                    if (direction.x === 0) direction = { x: stepSize, y: 0 };
+                    if (direction.x === 0) direction = { x: gridSize, y: 0 };
                     break;
                 case 'p':
                 case 'P':
@@ -271,12 +250,7 @@
             }
         });
 
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            if (food.x >= canvas.width || food.y >= canvas.height) {
-                food = getRandomFoodPosition();
-            }
-        });
+        window.addEventListener('resize', resizeCanvas);
 
         resizeCanvas();
         food = getRandomFoodPosition();
