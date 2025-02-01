@@ -40,8 +40,12 @@
         const ctx = canvas.getContext('2d');
 
         const gridSize = 20;
-        let snake = [{ x: 200, y: 200 }];
-        let direction = { x: 0, y: 0 };
+        let snake = [
+            { x: 200, y: 200 },
+            { x: 180, y: 200 },
+            { x: 160, y: 200 }
+        ];
+        let direction = { x: 1, y: 0 }; // Initial direction to the right
         let food = { x: 0, y: 0 };
 
         function resetFood() {
@@ -64,8 +68,12 @@
 
             if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.some(segment => segment.x === head.x && segment.y === head.y)) {
                 alert('Game Over');
-                snake = [{ x: 200, y: 200 }];
-                direction = { x: 0, y: 0 };
+                snake = [
+                    { x: 200, y: 200 },
+                    { x: 180, y: 200 },
+                    { x: 160, y: 200 }
+                ];
+                direction = { x: 1, y: 0 }; // Reset direction to the right
                 resetFood();
             } else {
                 snake.unshift(head);
@@ -86,6 +94,7 @@
 
         function startGame() {
             document.getElementById('startScreen').style.display = 'none';
+            window.removeEventListener('keydown', startGame);
             window.addEventListener('keydown', handleKeydown);
             resetFood();
             gameLoop();
