@@ -66,7 +66,7 @@
             { x: 160, y: 200 },
             { x: 140, y: 200 }
         ];
-        let direction = { x: 0, y: 0 };
+        let direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
         let food = { x: 0, y: 0 };
         let score = 0;
         let gamePaused = true;
@@ -145,7 +145,6 @@
                     clearInterval(countdownInterval);
                     gamePaused = false;
                     gameStarted = true;
-                    direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
                 }
             }, 1000);
         }
