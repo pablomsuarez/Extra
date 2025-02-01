@@ -30,11 +30,21 @@
             color: #000;
             z-index: 1;
         }
+        #pausedLabel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #fff;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <canvas id="gameCanvas" width="400" height="400"></canvas>
     <div id="startScreen">Press any key to start the game</div>
+    <div id="pausedLabel">Paused</div>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -47,6 +57,7 @@
         ];
         let direction = { x: 1, y: 0 }; // Initial direction to the right
         let food = { x: 0, y: 0 };
+        let isPaused = false;
 
         function resetFood() {
             food.x = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
@@ -87,8 +98,10 @@
         }
 
         function gameLoop() {
-            update();
-            draw();
+            if (!isPaused) {
+                update();
+                draw();
+            }
             setTimeout(gameLoop, 100);
         }
 
@@ -113,6 +126,11 @@
                     break;
                 case 'ArrowRight':
                     if (direction.x === 0) direction = { x: 1, y: 0 };
+                    break;
+                case 'p':
+                case 'P':
+                    isPaused = !isPaused;
+                    document.getElementById('pausedLabel').style.display = isPaused ? 'block' : 'none';
                     break;
             }
         }
