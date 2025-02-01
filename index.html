@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
     <style>
         body {
@@ -12,10 +11,6 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-        }
-        header, footer {
-            text-align: center;
-            margin: 20px 0;
         }
         .content {
             width: 100vw;
@@ -45,16 +40,10 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Snake game</h1>
-    </header>
     <div class="content">
         <canvas id="gameCanvas"></canvas>
     </div>
     <div id="overlay" class="overlay">Press 'S' to start the game</div>
-    <footer>
-        <p>&copy; 2023 Your Company</p>
-    </footer>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
