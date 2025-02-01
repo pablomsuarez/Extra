@@ -13,12 +13,14 @@
             overflow: hidden;
         }
         .content {
-            width: 100vw;
-            height: 100vh;
+            width: calc(100vw - 2mm);
+            height: calc(100vh - 2mm);
+            margin: 1mm;
             display: flex;
             justify-content: center;
             align-items: center;
             background-color: #fff;
+            border: 2px solid lightgrey;
         }
         .overlay {
             position: fixed;
@@ -48,8 +50,8 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const overlay = document.getElementById('overlay');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth - 4; // Adjust for border
+        canvas.height = window.innerHeight - 4; // Adjust for border
 
         const gridSize = 20;
         let snake = [
