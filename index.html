@@ -62,8 +62,8 @@
 
             function getRandomFoodPosition() {
                 return {
-                    x: Math.floor(Math.random() * canvas.width / gridSize) * gridSize,
-                    y: Math.floor(Math.random() * canvas.height / gridSize) * gridSize
+                    x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
+                    y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize
                 };
             }
 
