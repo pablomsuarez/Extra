@@ -71,6 +71,15 @@
             color: #61dafb; /* Light blue text color */
             display: none;
         }
+        #info {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 18px;
+            font-family: inherit; /* Inherit font from body */
+        }
     </style>
 </head>
 <body>
@@ -82,6 +91,9 @@
         <button onclick="location.reload()">Restart</button> <!-- Refresh the website -->
     </div>
     <div id="countdown"></div>
+    <div id="info">
+        <span id="score">Score: 0</span> | <span id="speed">Speed: 1</span>
+    </div>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -96,6 +108,7 @@
         let food = { x: 0, y: 0 };
         let isPaused = false;
         let score = 0;
+        let speed = 1;
         let gameOver = false;
 
         const rainbowColors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
@@ -154,6 +167,7 @@
 
                 if (head.x === food.x && head.y === food.y) {
                     score++;
+                    document.getElementById('score').innerText = `Score: ${score}`;
                     snake[0].color = foodColor; // Set the color of the new head segment to the food color
                     resetFood();
                 } else {
@@ -167,7 +181,7 @@
                 update();
                 draw();
             }
-            setTimeout(gameLoop, 120); // Increased timeout to make the snake go 20% slower
+            setTimeout(gameLoop, 120 / speed); // Adjust speed based on the speed variable
         }
 
         function restartGame() {
@@ -179,6 +193,9 @@
             ];
             direction = { x: 1, y: 0 }; // Reset direction to the right
             score = 0; // Reset score
+            speed = 1; // Reset speed
+            document.getElementById('score').innerText = `Score: ${score}`;
+            document.getElementById('speed').innerText = `Speed: ${speed}`;
             gameOver = false; // Reset game over state
             resetFood();
             gameLoop();
