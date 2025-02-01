@@ -3,258 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
+    <title>Grid of Squares</title>
     <style>
         body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: #f9f9f9;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 5px;
+            padding: 10px;
             margin: 0;
-            padding: 0;
-            overflow: hidden;
+            background-color: #f9f9f9;
         }
-        .content {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #fff;
-            border: 2px solid lightgrey;
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(211, 211, 211, 0.7); /* Light grey background */
-            color: black; /* Dark text */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            z-index: 1000;
-        }
-        .paused-label {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 24px;
-            display: none;
-            z-index: 1001;
-        }
-        .game-over-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 24px;
-            display: none;
-            z-index: 1002;
-            text-align: center;
-        }
-        .game-over-popup button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        canvas {
-            border: 2px solid black;
+        .square {
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50;
         }
     </style>
 </head>
 <body>
-    <div class="content">
-        <canvas id="gameCanvas"></canvas>
-    </div>
-    <div id="overlay" class="overlay">Press 'S' to start the game</div>
-    <div id="pausedLabel" class="paused-label">Paused</div>
-    <div id="gameOverPopup" class="game-over-popup">
-        <p>Game Over! Your score: <span id="finalScore"></span></p>
-        <button onclick="restartGame()">Play Again</button>
-    </div>
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const overlay = document.getElementById('overlay');
-        const pausedLabel = document.getElementById('pausedLabel');
-        const gameOverPopup = document.getElementById('gameOverPopup');
-        const finalScore = document.getElementById('finalScore');
-
-        const gridSize = 20;
-        const gridCount = 20; // 20 squares
-        const canvasSize = gridSize * gridCount;
-        let snake = [
-            { x: 200, y: 200 },
-            { x: 180, y: 200 },
-            { x: 160, y: 200 },
-            { x: 140, y: 200 }
-        ];
-        let direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
-        let food = { x: 0, y: 0 };
-        let score = 0;
-        let gamePaused = true;
-        let gameStarted = false;
-        let gameSpeed = 10; // Initial speed
-        let foodEaten = 0;
-
-        function resizeCanvas() {
-            canvas.width = canvasSize;
-            canvas.height = canvasSize;
-
-            // Ensure food is within the new game area
-            if (food.x >= canvasSize || food.y >= canvasSize) {
-                food = getRandomFoodPosition();
-            }
-        }
-
-        function getRandomFoodPosition() {
-            let position;
-            do {
-                position = {
-                    x: Math.floor(Math.random() * gridCount) * gridSize,
-                    y: Math.floor(Math.random() * gridCount) * gridSize
-                };
-            } while (snake.some(segment => segment.x === position.x && segment.y === position.y));
-            return position;
-        }
-
-        function drawSnake() {
-            ctx.fillStyle = 'darkgrey';
-            snake.forEach(segment => {
-                ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
-            });
-        }
-
-        function drawFood() {
-            ctx.fillStyle = 'red';
-            ctx.fillRect(food.x, food.y, gridSize, gridSize);
-        }
-
-        function updateSnake() {
-            const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
-            snake.unshift(head);
-
-            if (head.x === food.x && head.y === food.y) {
-                score++;
-                foodEaten++;
-                food = getRandomFoodPosition();
-                if (foodEaten % 5 === 0) {
-                    gameSpeed *= 1.1; // Increase speed by 10%
-                    clearInterval(gameInterval);
-                    gameInterval = setInterval(gameLoop, 1000 / gameSpeed);
-                }
-            } else {
-                snake.pop();
-            }
-        }
-
-        function checkCollision() {
-            const head = snake[0];
-            if (head.x < 0 || head.x >= canvasSize || head.y < 0 || head.y >= canvasSize) {
-                return true;
-            }
-            for (let i = 1; i < snake.length; i++) {
-                if (head.x === snake[i].x && head.y === snake[i].y) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function gameLoop() {
-            if (gamePaused) return;
-
-            if (checkCollision()) {
-                finalScore.textContent = score;
-                gameOverPopup.style.display = 'block';
-                return;
-            }
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawSnake();
-            drawFood();
-            updateSnake();
-        }
-
-        function startGame() {
-            overlay.style.background = 'rgba(211, 211, 211, 0.7)'; // Light grey background
-            let countdown = 3;
-            const countdownInterval = setInterval(() => {
-                overlay.innerHTML = countdown;
-                countdown--;
-                if (countdown < 0) {
-                    clearInterval(countdownInterval);
-                    overlay.style.display = 'none';
-                    gamePaused = false;
-                    gameStarted = true;
-                    gameInterval = setInterval(gameLoop, 1000 / gameSpeed);
-                }
-            }, 1000);
-        }
-
-        function restartGame() {
-            gameOverPopup.style.display = 'none';
-            snake = [
-                { x: 200, y: 200 },
-                { x: 180, y: 200 },
-                { x: 160, y: 200 },
-                { x: 140, y: 200 }
-            ];
-            direction = { x: gridSize, y: 0 };
-            score = 0;
-            foodEaten = 0;
-            gameSpeed = 10; // Initial speed
-            food = getRandomFoodPosition();
-            gamePaused = false;
-            gameStarted = true;
-            clearInterval(gameInterval);
-            gameInterval = setInterval(gameLoop, 1000 / gameSpeed);
-        }
-
-        document.addEventListener('keydown', event => {
-            if (!gameStarted && (event.key === 's' || event.key === 'S')) {
-                startGame();
-                return;
-            }
-            switch (event.key) {
-                case 'ArrowUp':
-                    if (direction.y === 0) direction = { x: 0, y: -gridSize };
-                    break;
-                case 'ArrowDown':
-                    if (direction.y === 0) direction = { x: 0, y: gridSize };
-                    break;
-                case 'ArrowLeft':
-                    if (direction.x === 0) direction = { x: -gridSize, y: 0 };
-                    break;
-                case 'ArrowRight':
-                    if (direction.x === 0) direction = { x: gridSize, y: 0 };
-                    break;
-                case 'p':
-                case 'P':
-                    if (gameStarted) {
-                        gamePaused = !gamePaused;
-                        pausedLabel.style.display = gamePaused ? 'block' : 'none';
-                    }
-                    break;
-            }
-        });
-
-        window.addEventListener('resize', resizeCanvas);
-
-        resizeCanvas();
-        food = getRandomFoodPosition();
-        let gameInterval = setInterval(gameLoop, 1000 / gameSpeed);
-    </script>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
 </body>
 </html>
