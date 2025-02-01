@@ -13,9 +13,8 @@
             overflow: hidden;
         }
         .content {
-            width: calc(100vw - 2mm);
-            height: calc(100vh - 2mm);
-            margin: 1mm;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -253,7 +252,10 @@
             }
         });
 
-        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            food = getRandomFoodPosition();
+        });
 
         resizeCanvas();
         food = getRandomFoodPosition();
