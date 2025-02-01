@@ -103,6 +103,8 @@
         let score = 0;
         let gamePaused = true;
         let gameStarted = false;
+        let gameSpeed = 100;
+        let foodEaten = 0;
 
         function resizeCanvas() {
             const canvasWidth = Math.floor(window.innerWidth / gridSize) * gridSize;
@@ -165,7 +167,13 @@
 
             if (head.x === food.x && head.y === food.y) {
                 score++;
+                foodEaten++;
                 food = getRandomFoodPosition();
+                if (foodEaten % 5 === 0) {
+                    gameSpeed *= 0.9; // Increase speed by 10%
+                    clearInterval(gameInterval);
+                    gameInterval = setInterval(gameLoop, gameSpeed);
+                }
             } else {
                 snake.pop();
             }
@@ -210,6 +218,7 @@
                     overlay.style.display = 'none';
                     gamePaused = false;
                     gameStarted = true;
+                    gameInterval = setInterval(gameLoop, gameSpeed);
                 }
             }, 1000);
         }
@@ -224,9 +233,13 @@
             ];
             direction = { x: gridSize, y: 0 };
             score = 0;
+            foodEaten = 0;
+            gameSpeed = 100;
             food = getRandomFoodPosition();
             gamePaused = false;
             gameStarted = true;
+            clearInterval(gameInterval);
+            gameInterval = setInterval(gameLoop, gameSpeed);
         }
 
         document.addEventListener('keydown', event => {
@@ -266,7 +279,7 @@
 
         resizeCanvas();
         food = getRandomFoodPosition();
-        setInterval(gameLoop, 100);
+        let gameInterval = setInterval(gameLoop, gameSpeed);
     </script>
 </body>
 </html>
