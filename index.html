@@ -88,9 +88,9 @@
 
         const gridSize = 20;
         let snake = [
-            { x: 200, y: 200, color: 'lime' },
-            { x: 180, y: 200, color: 'lime' },
-            { x: 160, y: 200, color: 'lime' }
+            { x: 200, y: 200, color: 'red' },
+            { x: 180, y: 200, color: 'orange' },
+            { x: 160, y: 200, color: 'yellow' }
         ];
         let direction = { x: 1, y: 0 }; // Initial direction to the right
         let food = { x: 0, y: 0 };
@@ -98,18 +98,18 @@
         let score = 0;
         let gameOver = false;
 
-        const foodColors = ['red', 'blue', 'yellow', 'purple', 'orange'];
+        const rainbowColors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
 
-        function getRandomFoodColor() {
-            return foodColors[Math.floor(Math.random() * foodColors.length)];
+        function getRandomRainbowColor() {
+            return rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
         }
 
-        let foodColor = getRandomFoodColor();
+        let foodColor = getRandomRainbowColor();
 
         function resetFood() {
             food.x = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
             food.y = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
-            foodColor = getRandomFoodColor();
+            foodColor = getRandomRainbowColor();
         }
 
         function drawRoundedRect(ctx, x, y, width, height, radius, color) {
@@ -173,9 +173,9 @@
         function restartGame() {
             document.getElementById('gameOverScreen').style.display = 'none';
             snake = [
-                { x: 200, y: 200, color: 'lime' },
-                { x: 180, y: 200, color: 'lime' },
-                { x: 160, y: 200, color: 'lime' }
+                { x: 200, y: 200, color: 'red' },
+                { x: 180, y: 200, color: 'orange' },
+                { x: 160, y: 200, color: 'yellow' }
             ];
             direction = { x: 1, y: 0 }; // Reset direction to the right
             score = 0; // Reset score
