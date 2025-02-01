@@ -11,11 +11,11 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #0f0e0e; /* Changed background color to white */
+            background-color: #ffffff; /* Changed background color to white */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Apple-like font */
         }
         canvas {
-            border: 1px solid #fff;
+            border: 1px solid #000; /* Changed border color to black */
         }
         #startScreen {
             position: absolute;
@@ -23,12 +23,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(211, 211, 211, 0.8);
+            background-color: rgba(0, 0, 0, 0.8); /* Changed background color to black */
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            color: #000;
+            color: #fff; /* Changed text color to white */
             z-index: 1;
         }
         #pausedLabel {
@@ -37,7 +37,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 24px;
-            color: #fff;
+            color: #000; /* Changed text color to black */
             display: none;
         }
         #gameOverScreen {
@@ -46,13 +46,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(211, 211, 211, 0.8);
+            background-color: rgba(0, 0, 0, 0.8); /* Changed background color to black */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            color: #000;
+            color: #fff; /* Changed text color to white */
             z-index: 1;
             display: none;
         }
@@ -68,7 +68,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 48px;
-            color: #61dafb; /* Light blue text color */
+            color: #000; /* Changed text color to black */
             display: none;
         }
         #info {
@@ -76,7 +76,15 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            color: #fff;
+            color: #000; /* Changed text color to black */
+            font-size: 18px;
+            font-family: inherit; /* Inherit font from body */
+        }
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #000; /* Changed text color to black */
             font-size: 18px;
             font-family: inherit; /* Inherit font from body */
         }
@@ -91,24 +99,21 @@
         <button onclick="location.reload()">Restart</button> <!-- Refresh the website -->
     </div>
     <div id="countdown"></div>
-    <div id="info">
-        <span id="score">Score: 0</span> | <span id="speed">Speed: 1</span>
-    </div>
+    <div id="score">0</div>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
         const gridSize = 20;
         let snake = [
-            { x: 200, y: 200, color: 'red' },
-            { x: 180, y: 200, color: 'orange' },
-            { x: 160, y: 200, color: 'yellow' }
+            { x: 200, y: 200, color: '#006400' }, // Dark green
+            { x: 180, y: 200, color: '#228B22' }, // Forest green
+            { x: 160, y: 200, color: '#32CD32' }  // Lime green
         ];
         let direction = { x: 1, y: 0 }; // Initial direction to the right
         let food = { x: 0, y: 0 };
         let isPaused = false;
         let score = 0;
-        let speed = 1;
         let gameOver = false;
         let foodCount = 0;
 
@@ -140,9 +145,23 @@
             ctx.quadraticCurveTo(x, y, x + radius, y);
             ctx.closePath();
             ctx.fill();
-            ctx.strokeStyle = '#006400'; // Dark green color for edges
+            ctx.strokeStyle = '#000'; // Changed stroke color to black
             ctx.lineWidth = 2;
             ctx.stroke();
+        }
+
+        function drawEyes(ctx, x, y, size) {
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(x + size / 4, y + size / 4, size / 8, 0, Math.PI * 2);
+            ctx.arc(x + (3 * size) / 4, y + size / 4, size / 8, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(x + size / 4, y + size / 4, size / 16, 0, Math.PI * 2);
+            ctx.arc(x + (3 * size) / 4, y + size / 4, size / 16, 0, Math.PI * 2);
+            ctx.fill();
         }
 
         function draw() {
@@ -150,7 +169,12 @@
 
             drawRoundedRect(ctx, food.x, food.y, gridSize, gridSize, 5, foodColor);
 
-            snake.forEach(segment => drawRoundedRect(ctx, segment.x, segment.y, gridSize, gridSize, 5, segment.color));
+            snake.forEach((segment, index) => {
+                drawRoundedRect(ctx, segment.x, segment.y, gridSize, gridSize, 5, segment.color);
+                if (index === 0) {
+                    drawEyes(ctx, segment.x, segment.y, gridSize);
+                }
+            });
         }
 
         function update() {
@@ -169,14 +193,14 @@
                 if (head.x === food.x && head.y === food.y) {
                     score++;
                     foodCount++;
-                    document.getElementById('score').innerText = `Score: ${score}`;
+                    document.getElementById('score').innerText = score;
                     snake[0].color = foodColor; // Set the color of the new head segment to the food color
                     resetFood();
 
                     if (foodCount % 5 === 0) {
-                        const bonusPoints = 10 * speed;
+                        const bonusPoints = 10;
                         score += bonusPoints;
-                        document.getElementById('score').innerText = `Score: ${score}`;
+                        document.getElementById('score').innerText = score;
                     }
                 } else {
                     snake.pop();
@@ -195,16 +219,14 @@
         function restartGame() {
             document.getElementById('gameOverScreen').style.display = 'none';
             snake = [
-                { x: 200, y: 200, color: 'red' },
-                { x: 180, y: 200, color: 'orange' },
-                { x: 160, y: 200, color: 'yellow' }
+                { x: 200, y: 200, color: '#006400' }, // Dark green
+                { x: 180, y: 200, color: '#228B22' }, // Forest green
+                { x: 160, y: 200, color: '#32CD32' }  // Lime green
             ];
             direction = { x: 1, y: 0 }; // Reset direction to the right
             score = 0; // Reset score
-            speed = 1; // Reset speed
             foodCount = 0; // Reset food count
-            document.getElementById('score').innerText = `Score: ${score}`;
-            document.getElementById('speed').innerText = `Speed: ${speed.toFixed(1)}`;
+            document.getElementById('score').innerText = score;
             gameOver = false; // Reset game over state
             resetFood();
             gameLoop();
