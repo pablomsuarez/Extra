@@ -206,7 +206,7 @@
             speed = 1; // Reset speed
             foodCount = 0; // Reset food count
             document.getElementById('score').innerText = `Score: ${score}`;
-            document.getElementById('speed').innerText = `Speed: ${speed}`;
+            document.getElementById('speed').innerText = `Speed: ${speed.toFixed(1)}`;
             gameOver = false; // Reset game over state
             resetFood();
             gameLoop();
