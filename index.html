@@ -110,6 +110,7 @@
         let score = 0;
         let speed = 1;
         let gameOver = false;
+        let foodCount = 0;
 
         const rainbowColors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
 
@@ -167,9 +168,18 @@
 
                 if (head.x === food.x && head.y === food.y) {
                     score++;
+                    foodCount++;
                     document.getElementById('score').innerText = `Score: ${score}`;
                     snake[0].color = foodColor; // Set the color of the new head segment to the food color
                     resetFood();
+
+                    if (foodCount % 5 === 0) {
+                        const bonusPoints = 10 * speed;
+                        score += bonusPoints;
+                        document.getElementById('score').innerText = `Score: ${score}`;
+                        speed *= 1.5; // Increase speed by 50%
+                        document.getElementById('speed').innerText = `Speed: ${speed.toFixed(1)}`;
+                    }
                 } else {
                     snake.pop();
                 }
@@ -194,6 +204,7 @@
             direction = { x: 1, y: 0 }; // Reset direction to the right
             score = 0; // Reset score
             speed = 1; // Reset speed
+            foodCount = 0; // Reset food count
             document.getElementById('score').innerText = `Score: ${score}`;
             document.getElementById('speed').innerText = `Speed: ${speed}`;
             gameOver = false; // Reset game over state
