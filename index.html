@@ -116,6 +116,9 @@
             ctx.quadraticCurveTo(x, y, x + radius, y);
             ctx.closePath();
             ctx.fill();
+            ctx.strokeStyle = '#006400'; // Dark green color for edges
+            ctx.lineWidth = 2;
+            ctx.stroke();
         }
 
         function draw() {
