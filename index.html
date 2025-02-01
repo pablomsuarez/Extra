@@ -92,18 +92,19 @@
         const finalScore = document.getElementById('finalScore');
 
         const gridSize = 20;
+        const stepSize = 5; // Smaller step size for smoother movement
         let snake = [
             { x: 200, y: 200 },
             { x: 180, y: 200 },
             { x: 160, y: 200 },
             { x: 140, y: 200 }
         ];
-        let direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
+        let direction = { x: stepSize, y: 0 }; // Start moving the snake to the right
         let food = { x: 0, y: 0 };
         let score = 0;
         let gamePaused = true;
         let gameStarted = false;
-        let gameSpeed = 2; // Increase the initial speed
+        let gameSpeed = 10; // Initial speed
         let foodEaten = 0;
 
         function resizeCanvas() {
@@ -231,7 +232,7 @@
                 { x: 160, y: 200 },
                 { x: 140, y: 200 }
             ];
-            direction = { x: gridSize, y: 0 };
+            direction = { x: stepSize, y: 0 };
             score = 0;
             foodEaten = 0;
             gameSpeed = 10; // Initial speed
@@ -249,16 +250,16 @@
             }
             switch (event.key) {
                 case 'ArrowUp':
-                    if (direction.y === 0) direction = { x: 0, y: -gridSize };
+                    if (direction.y === 0) direction = { x: 0, y: -stepSize };
                     break;
                 case 'ArrowDown':
-                    if (direction.y === 0) direction = { x: 0, y: gridSize };
+                    if (direction.y === 0) direction = { x: 0, y: stepSize };
                     break;
                 case 'ArrowLeft':
-                    if (direction.x === 0) direction = { x: -gridSize, y: 0 };
+                    if (direction.x === 0) direction = { x: -stepSize, y: 0 };
                     break;
                 case 'ArrowRight':
-                    if (direction.x === 0) direction = { x: gridSize, y: 0 };
+                    if (direction.x === 0) direction = { x: stepSize, y: 0 };
                     break;
                 case 'p':
                 case 'P':
