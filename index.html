@@ -103,7 +103,7 @@
         let score = 0;
         let gamePaused = true;
         let gameStarted = false;
-        let gameSpeed = 0.5; // Halve the initial speed
+        let gameSpeed = 2; // Increase the initial speed
         let foodEaten = 0;
 
         function resizeCanvas() {
@@ -234,7 +234,7 @@
             direction = { x: gridSize, y: 0 };
             score = 0;
             foodEaten = 0;
-            gameSpeed = 0.5; // Halve the initial speed
+            gameSpeed = 2; // Initial speed
             food = getRandomFoodPosition();
             gamePaused = false;
             gameStarted = true;
