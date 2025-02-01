@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
         body {
             display: flex;
             justify-content: center;
@@ -12,7 +14,7 @@
             height: 100vh;
             margin: 0;
             background-color: #ffffff; /* Changed background color to white */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Apple-like font */
+            font-family: 'Roboto', sans-serif; /* Changed font to Roboto */
         }
         canvas {
             border: 1px solid #000; /* Changed border color to black */
@@ -67,8 +69,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 48px;
-            color: #000; /* Changed text color to black */
+            font-size: 480px; /* Make the font size fit right in the game area */
+            color: #d3d3d3; /* Light grey color for the numbers */
             display: none;
         }
         #info {
@@ -82,8 +84,9 @@
         }
         #score {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 0;
+            left: 0;
+            padding: 10px;
             color: #000; /* Changed text color to black */
             font-size: 18px;
             font-family: inherit; /* Inherit font from body */
