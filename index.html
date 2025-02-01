@@ -3,136 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extra</title>
+    <title>Landing Page</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
             font-family: 'Open Sans', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
         }
-        h1 {
-            margin-top: 20vh; /* Adjust this value to position the heading slightly towards the top */
-        }
-        input {
-            margin-top: 20px; /* Adds some space between the h1 and the input box */
-            padding: 10px;
-            font-size: 16px;
-            color: #333; /* Darker color for user-typed text */
-            border: 2px solid #ccc; /* Light grey border */
-            border-radius: 5px; /* Rounded corners */
-            transition: border-color 0.3s ease, background-color 0.3s ease; /* Smooth transition for border color and background color */
-            background-color: #f0f0f0; /* Light grey background */
-        }
-        input:focus {
-            border-color: #999; /* Darker grey border on focus */
-            outline: none; /* Remove default outline */
-            background-color: #e0e0e0; /* Slightly darker grey background on focus */
-        }
-        input.placeholder {
-            color: #aaa; /* Lighter color for the typing effect */
-        }
-        button {
-            margin-top: 20px; /* Adds some space between the input box and the button */
-            padding: 10px 20px; /* Decrease padding for a smaller button */
-            font-size: 16px; /* Decrease font size */
-            cursor: pointer;
-            background-color: #007BFF; /* Blue background */
-            color: white; /* White text */
-            border: none; /* Remove border */
-            border-radius: 20px; /* Slightly less rounded corners */
-            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for background color and transform */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
-        }
-        button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-            transform: translateY(-2px); /* Slight lift on hover */
-        }
-        button:active {
-            background-color: #004494; /* Even darker blue on click */
-            transform: translateY(0); /* Reset lift on click */
-        }
-        footer {
-            margin-top: auto; /* Pushes the footer to the bottom */
-            padding: 10px;
-            font-size: 14px;
+        header, footer {
             text-align: center;
-            color: #666; /* Light gray text */
-            border-top: 1px solid #ccc; /* Light gray top border */
-            width: 100%; /* Full width */
-            background-color: #f9f9f9; /* Light gray background */
+            margin: 20px 0;
+        }
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>What is going on with:</h1>
-    <input type="text" id="companyInput" placeholder="Enter text here" readonly>
-    <button id="submitButton">Submit</button>
-    <footer><a href="https://pablomsuarez.github.io/Extra/feedback.html">Product feedback</a></footer>
-
-    <script>
-        const companies = ["Apple", "Tesla", "Microsoft"];
-        let currentCompanyIndex = 0;
-        let currentCharIndex = 0;
-        const inputElement = document.getElementById("companyInput");
-        const submitButton = document.getElementById("submitButton");
-        let typingEffectActive = true;
-
-        function typeCompany() {
-            if (!typingEffectActive) return;
-            if (currentCharIndex < companies[currentCompanyIndex].length) {
-                inputElement.value += companies[currentCompanyIndex].charAt(currentCharIndex);
-                currentCharIndex++;
-                setTimeout(typeCompany, Math.random() * 150 + 100); // Random delay between 100ms and 250ms
-            } else {
-                setTimeout(eraseCompany, 2000); // Wait 2 seconds before erasing
-            }
-        }
-
-        function eraseCompany() {
-            if (!typingEffectActive) return;
-            if (currentCharIndex > 0) {
-                inputElement.value = inputElement.value.slice(0, -1);
-                currentCharIndex--;
-                setTimeout(eraseCompany, Math.random() * 100 + 50); // Random delay between 50ms and 150ms
-            } else {
-                currentCompanyIndex = (currentCompanyIndex + 1) % companies.length;
-                setTimeout(typeCompany, 500); // Wait 0.5 seconds before typing the next company
-            }
-        }
-
-        function handleSubmit() {
-            const companyName = inputElement.value;
-            window.location.href = `https://pablomsuarez.github.io/Extra/landing.html?company=${encodeURIComponent(companyName)}`;
-        }
-
-        // Start the typing effect
-        typeCompany();
-
-        // Disable typing effect when user starts typing
-        inputElement.addEventListener('focus', () => {
-            typingEffectActive = false;
-            inputElement.readOnly = false;
-            inputElement.classList.remove('placeholder');
-            inputElement.value = ''; // Clear the input box
-        });
-
-        // Add placeholder class for initial typing effect
-        inputElement.classList.add('placeholder');
-
-        // Add event listener for the button click
-        submitButton.addEventListener('click', handleSubmit);
-
-        // Add event listener for the Enter key
-        inputElement.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                handleSubmit();
-            }
-        });
-    </script>
+    <header>
+        <h1>Welcome to the Landing Page</h1>
+    </header>
+    <div class="content">
+        <!-- Main content goes here -->
+    </div>
+    <footer>
+        <p>&copy; 2023 Your Company</p>
+    </footer>
 </body>
 </html>
