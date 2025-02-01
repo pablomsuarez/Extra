@@ -10,19 +10,20 @@
             font-family: 'Open Sans', sans-serif;
             background-color: #f9f9f9;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            overflow: hidden;
         }
         header, footer {
             text-align: center;
             margin: 20px 0;
         }
         .content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
         }
         .overlay {
             position: fixed;
@@ -48,7 +49,7 @@
         <h1>Snake game</h1>
     </header>
     <div class="content">
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <canvas id="gameCanvas"></canvas>
     </div>
     <div id="overlay" class="overlay">Press 'S' to start the game</div>
     <footer>
@@ -58,6 +59,8 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const overlay = document.getElementById('overlay');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
         const gridSize = 20;
         let snake = [
@@ -80,15 +83,35 @@
         }
 
         function drawSnake() {
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = 'darkgrey';
             snake.forEach(segment => {
                 ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
             });
         }
 
         function drawFood() {
-            ctx.fillStyle = 'red';
+            ctx.fillStyle = ctx.createPattern(createFoodPattern(), 'repeat');
             ctx.fillRect(food.x, food.y, gridSize, gridSize);
+        }
+
+        function createFoodPattern() {
+            const patternCanvas = document.createElement('canvas');
+            patternCanvas.width = gridSize;
+            patternCanvas.height = gridSize;
+            const patternCtx = patternCanvas.getContext('2d');
+
+            patternCtx.fillStyle = 'darkgrey';
+            patternCtx.fillRect(0, 0, gridSize, gridSize);
+            patternCtx.strokeStyle = 'white';
+            patternCtx.lineWidth = 2;
+            patternCtx.beginPath();
+            patternCtx.moveTo(0, 0);
+            patternCtx.lineTo(gridSize, gridSize);
+            patternCtx.moveTo(gridSize, 0);
+            patternCtx.lineTo(0, gridSize);
+            patternCtx.stroke();
+
+            return patternCanvas;
         }
 
         function updateSnake() {
