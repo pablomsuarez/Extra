@@ -51,9 +51,9 @@
             const gameOverLabel = document.getElementById('gameOverLabel');
             let gameStarted = false;
             let gamePaused = false;
-            let direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
             const gridSize = 20;
             const gameSpeed = 10;
+            let direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
             let food = { x: 0, y: 0 };
             let snake = [
                 { x: gridSize * 3, y: gridSize * 3 },
@@ -67,10 +67,14 @@
             }
 
             function getRandomFoodPosition() {
-                return {
-                    x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
-                    y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize
-                };
+                let position;
+                do {
+                    position = {
+                        x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
+                        y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize
+                    };
+                } while (snake.some(segment => segment.x === position.x && segment.y === position.y));
+                return position;
             }
 
             function gameLoop() {
@@ -142,6 +146,7 @@
                             gamePaused = false;
                             gameOverLabel.style.display = 'none';
                             direction = { x: gridSize, y: 0 }; // Start moving the snake to the right
+                            food = getRandomFoodPosition();
                             gameInterval = setInterval(gameLoop, 1000 / gameSpeed);
                         }
                         break;
