@@ -177,8 +177,6 @@
                         const bonusPoints = 10 * speed;
                         score += bonusPoints;
                         document.getElementById('score').innerText = `Score: ${score}`;
-                        speed *= 1.15; // Increase speed by 15%
-                        document.getElementById('speed').innerText = `Speed: ${speed.toFixed(1)}`;
                     }
                 } else {
                     snake.pop();
@@ -191,7 +189,7 @@
                 update();
                 draw();
             }
-            setTimeout(gameLoop, 120 / speed); // Adjust speed based on the speed variable
+            setTimeout(gameLoop, 120); // Fixed speed
         }
 
         function restartGame() {
