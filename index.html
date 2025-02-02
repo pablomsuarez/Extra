@@ -291,7 +291,7 @@
         }
 
         function startGameListener(e) {
-            if (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C') {
+            if (e.key === 's' || e.key === 'S') {
                 startGame();
             }
         }
@@ -330,7 +330,7 @@
             document.addEventListener('touchstart', handleSwipeStart, false);
             document.addEventListener('touchmove', handleSwipeMove, false);
         } else {
-            window.addEventListener('keydown', startGameListener, { once: true });
+            window.addEventListener('keydown', startGameListener);
         }
 
         let xDown = null;
