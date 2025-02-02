@@ -128,6 +128,7 @@
         let lastFoodColor = null; // Initialize lastFoodColor
         const gridSize = 20; // Define gridSize
         let isPaused = false; // Define isPaused
+        let foodCount = 0; // Define foodCount
 
         const rainbowColors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF'];
 
@@ -147,6 +148,7 @@
             direction = { x: 1, y: 0 };
             score = 0;
             gameOver = false;
+            foodCount = 0; // Reset foodCount
             resetFood();
             startTime = Date.now();
             gameLoop();
