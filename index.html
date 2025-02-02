@@ -353,8 +353,16 @@
         function recordScore() {
             const playerName = document.getElementById('nameInput').value;
             if (playerName) {
+                const scoreEntry = {
+                    date: new Date().toLocaleString(),
+                    name: playerName,
+                    score: score.toFixed(2)
+                };
+                let rankingData = JSON.parse(localStorage.getItem('snakeGameRanking')) || [];
+                rankingData.push(scoreEntry);
+                localStorage.setItem('snakeGameRanking', JSON.stringify(rankingData));
                 alert(`Score recorded for ${playerName}: ${score.toFixed(2)}`);
-                // Here you can add code to save the score to a database or local storage
+                location.href = 'ranking.html'; // Redirect to ranking page
             } else {
                 alert('Please enter your name.');
             }

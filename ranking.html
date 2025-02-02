@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game Ranking</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff; /* Background color white */
+            font-family: 'Roboto', sans-serif; /* Font Roboto */
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px;
+        }
+        th, td {
+            border: 1px solid #000; /* Border color black */
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2; /* Light grey background for header */
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #playAgain {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: inherit; /* Inherit font from body */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Snake Game Ranking</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="rankingTableBody">
+                <!-- Ranking data will be inserted here -->
+            </tbody>
+        </table>
+        <button id="playAgain" onclick="location.href='index.html'">Play Again</button>
+    </div>
+    <script>
+        function loadRanking() {
+            const rankingData = JSON.parse(localStorage.getItem('snakeGameRanking')) || [];
+            const rankingTableBody = document.getElementById('rankingTableBody');
+            rankingTableBody.innerHTML = '';
+
+            rankingData.forEach(entry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.date}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.score}</td>
+                `;
+                rankingTableBody.appendChild(row);
+            });
+        }
+
+        window.onload = loadRanking;
+    </script>
+</body>
+</html>
