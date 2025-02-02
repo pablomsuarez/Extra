@@ -330,8 +330,10 @@
             document.addEventListener('touchstart', handleSwipeStart, false);
             document.addEventListener('touchmove', handleSwipeMove, false);
         } else {
-            window.addEventListener('keydown', startGameListener);
+            // Remove the event listener for the 'S' key
         }
+
+        window.onload = startGame; // Start the game after loading the website
 
         let xDown = null;
         let yDown = null;
