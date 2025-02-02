@@ -129,6 +129,7 @@
         const gridSize = 20; // Define gridSize
         let isPaused = false; // Define isPaused
         let foodCount = 0; // Define foodCount
+        let speed = 120; // Initial speed
 
         const rainbowColors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF'];
 
@@ -149,6 +150,7 @@
             score = 0;
             gameOver = false;
             foodCount = 0; // Reset foodCount
+            speed = 120; // Reset speed
             resetFood();
             startTime = Date.now();
             gameLoop();
@@ -177,7 +179,7 @@
                 update();
                 draw();
             }
-            setTimeout(gameLoop, 120); // Fixed speed
+            setTimeout(gameLoop, speed); // Use dynamic speed
         }
 
         function clearCanvas() {
@@ -194,6 +196,7 @@
             snake.unshift(head);
             if (head.x === food.x && head.y === food.y) {
                 score++;
+                speed *= 0.98; // Increase speed by 2%
                 resetFood();
             } else {
                 snake.pop();
@@ -313,6 +316,7 @@
                 if (head.x === food.x && head.y === food.y) {
                     score += (foodCount + 1) * 2; // Increment score by (foodCount + 1) * 2
                     foodCount++;
+                    speed *= 0.98; // Increase speed by 2%
                     document.getElementById('score').innerText = Math.floor(score); // Display score as natural number
                     snake[0].color = food.color; // Set the color of the new segment to the color of the food
                     resetFood();
@@ -327,7 +331,7 @@
                 update();
                 draw();
             }
-            setTimeout(gameLoop, 120); // Fixed speed
+            setTimeout(gameLoop, speed); // Use dynamic speed
         }
 
         function restartGame() {
@@ -340,6 +344,7 @@
             direction = { x: 1, y: 0 }; // Reset direction to the right
             score = 0; // Reset score
             foodCount = 0; // Reset food count
+            speed = 120; // Reset speed
             document.getElementById('score').innerText = score.toFixed(2);
             gameOver = false; // Reset game over state
             resetFood();
