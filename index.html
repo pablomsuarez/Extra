@@ -363,7 +363,6 @@
             const playerName = document.getElementById('nameInput').value;
             if (playerName && playerName.length <= 12) {
                 const scoreEntry = {
-                    date: new Date().toLocaleDateString('en-GB'), // Format date to dd-mm-yy
                     name: playerName,
                     score: Math.floor(score) // Save score as natural number
                 };
