@@ -123,24 +123,39 @@
     <div id="countdown"></div>
     <div id="score">0</div>
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+        let canvas, ctx;
+        let snake, direction, food, score, gameOver, startTime;
+        let lastFoodColor = null; // Initialize lastFoodColor
 
-        const gridSize = 20;
         const rainbowColors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF'];
-        let snake = [
-            { x: 200, y: 200, color: rainbowColors[0] }, // Red
-            { x: 180, y: 200, color: rainbowColors[1] }, // Orange
-            { x: 160, y: 200, color: rainbowColors[2] }  // Yellow
-        ];
-        let direction = { x: 1, y: 0 }; // Initial direction to the right
-        let food = { x: 0, y: 0, color: getRandomRainbowColor() };
-        let isPaused = false;
-        let score = 0;
-        let gameOver = false;
-        let foodCount = 0;
-        let lastFoodColor = null;
-        let startTime = null;
+
+        function init() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            startGame(); // Start the game after loading the website
+        }
+
+        function resetGame() {
+            snake = [
+                { x: 200, y: 200, color: rainbowColors[0] },
+                { x: 180, y: 200, color: rainbowColors[1] },
+                { x: 160, y: 200, color: rainbowColors[2] }
+            ];
+            direction = { x: 1, y: 0 };
+            score = 0;
+            gameOver = false;
+            placeFood();
+            startTime = Date.now();
+            gameLoop();
+        }
+
+        function placeFood() {
+            food = {
+                x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
+                y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize,
+                color: getRandomRainbowColor()
+            };
+        }
 
         function getRandomRainbowColor() {
             let newColor;
@@ -151,11 +166,88 @@
             return newColor;
         }
 
-        function resetFood() {
-            food.x = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
-            food.y = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
-            food.color = getRandomRainbowColor();
+        function gameLoop() {
+            if (gameOver) return;
+            setTimeout(() => {
+                clearCanvas();
+                drawFood();
+                moveSnake();
+                drawSnake();
+                checkCollision();
+                gameLoop();
+            }, 120); // Fixed speed
         }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function drawFood() {
+            ctx.fillStyle = food.color;
+            ctx.fillRect(food.x, food.y, gridSize, gridSize);
+        }
+
+        function moveSnake() {
+            const head = { x: snake[0].x + direction.x * gridSize, y: snake[0].y + direction.y * gridSize, color: rainbowColors[0] };
+            snake.unshift(head);
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                placeFood();
+            } else {
+                snake.pop();
+            }
+        }
+
+        function drawSnake() {
+            snake.forEach((segment, index) => {
+                ctx.fillStyle = segment.color;
+                ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
+            });
+        }
+
+        function checkCollision() {
+            const head = snake[0];
+            if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
+                gameOver = true;
+                document.getElementById('gameOverScreen').style.display = 'block';
+            }
+            for (let i = 4; i < snake.length; i++) {
+                if (head.x === snake[i].x && head.y === snake[i].y) {
+                    gameOver = true;
+                    document.getElementById('gameOverScreen').style.display = 'block';
+                }
+            }
+        }
+
+        function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            startCountdown();
+        }
+
+        function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            let countdown = 3;
+            countdownElement.innerText = countdown;
+            countdownElement.style.display = 'block';
+
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                if (countdown > 0) {
+                    countdownElement.innerText = countdown;
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownElement.style.display = 'none';
+                    resetGame();
+                }
+            }, 1000);
+        }
+
+        function restartGame() {
+            document.getElementById('gameOverScreen').style.display = 'none';
+            resetGame();
+        }
+
+        window.onload = init;
 
         function drawRoundedRect(ctx, x, y, width, height, radius, color) {
             ctx.fillStyle = color;
