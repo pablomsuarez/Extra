@@ -92,6 +92,12 @@
             font-size: 18px;
             font-family: inherit; /* Inherit font from body */
         }
+        #nameInput {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            font-family: inherit; /* Inherit font from body */
+        }
     </style>
 </head>
 <body>
@@ -100,6 +106,8 @@
     <div id="pausedLabel">Paused</div>
     <div id="gameOverScreen">
         <div id="gameOverMessage"></div>
+        <input type="text" id="nameInput" placeholder="Enter your name" />
+        <button onclick="recordScore()">Submit</button>
         <button onclick="location.reload()">Restart</button> <!-- Refresh the website -->
     </div>
     <div id="countdown"></div>
@@ -122,6 +130,7 @@
         let gameOver = false;
         let foodCount = 0;
         let lastFoodColor = null;
+        let startTime = null;
 
         function getRandomRainbowColor() {
             let newColor;
@@ -192,7 +201,7 @@
             const head = { x: snake[0].x + direction.x * gridSize, y: snake[0].y + direction.y * gridSize, color: foodColor };
 
             if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-                document.getElementById('gameOverMessage').innerText = `Game Over. Your score: ${score}`;
+                document.getElementById('gameOverMessage').innerText = `Game Over. Your score: ${score.toFixed(2)}`;
                 document.getElementById('gameOverScreen').style.display = 'flex';
                 gameOver = true;
                 return;
@@ -200,16 +209,11 @@
                 snake.unshift(head);
 
                 if (head.x === food.x && head.y === food.y) {
-                    score++;
+                    const elapsedTime = (Date.now() - startTime) / 1000; // Calculate elapsed time in seconds
+                    score += foodCount * elapsedTime;
                     foodCount++;
-                    document.getElementById('score').innerText = score;
+                    document.getElementById('score').innerText = score.toFixed(2); // Display score with two decimal places
                     resetFood();
-
-                    if (foodCount % 5 === 0) {
-                        const bonusPoints = 10;
-                        score += bonusPoints;
-                        document.getElementById('score').innerText = score;
-                    }
                 } else {
                     snake.pop();
                 }
@@ -234,9 +238,10 @@
             direction = { x: 1, y: 0 }; // Reset direction to the right
             score = 0; // Reset score
             foodCount = 0; // Reset food count
-            document.getElementById('score').innerText = score;
+            document.getElementById('score').innerText = score.toFixed(2);
             gameOver = false; // Reset game over state
             resetFood();
+            startTime = Date.now(); // Reset start time
             gameLoop();
         }
 
@@ -273,6 +278,7 @@
             score = 0; // Reset score
             gameOver = false; // Reset game over state
             resetFood();
+            startTime = Date.now(); // Set start time
             gameLoop();
         }
 
@@ -341,6 +347,16 @@
                     isPaused = !isPaused;
                     document.getElementById('pausedLabel').style.display = isPaused ? 'block' : 'none';
                     break;
+            }
+        }
+
+        function recordScore() {
+            const playerName = document.getElementById('nameInput').value;
+            if (playerName) {
+                alert(`Score recorded for ${playerName}: ${score.toFixed(2)}`);
+                // Here you can add code to save the score to a database or local storage
+            } else {
+                alert('Please enter your name.');
             }
         }
 
