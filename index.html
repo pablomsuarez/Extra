@@ -352,6 +352,7 @@
         function startGameListener(e) {
             if (e.key === 's' || e.key === 'S') {
                 startGame();
+                window.addEventListener('keydown', handleKeydown); // Add event listener for arrow keys
             }
         }
 
