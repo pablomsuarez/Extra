@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); /* Arcade style font */
 
         body {
             display: flex;
@@ -13,11 +13,12 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #ffffff; /* Changed background color to white */
-            font-family: 'Roboto', sans-serif; /* Changed font to Roboto */
+            background-color: #000; /* Changed background color to black */
+            font-family: 'Press Start 2P', cursive; /* Changed font to arcade style */
+            color: #00ff00; /* Changed text color to green */
         }
         canvas {
-            border: 1px solid #000; /* Changed border color to black */
+            border: 3px solid #00ff00; /* Changed border color to green */
         }
         #startScreen {
             position: absolute;
@@ -25,12 +26,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Changed background color to black */
+            background-color: rgba(0, 0, 0, 0.9); /* Changed background color to black */
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            color: #fff; /* Changed text color to white */
+            color: #00ff00; /* Changed text color to green */
             z-index: 1;
         }
         #pausedLabel {
@@ -39,7 +40,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 24px;
-            color: #000; /* Changed text color to black */
+            color: #00ff00; /* Changed text color to green */
             display: none;
         }
         #gameOverScreen {
@@ -48,13 +49,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Changed background color to black */
+            background-color: rgba(0, 0, 0, 0.9); /* Changed background color to black */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            color: #fff; /* Changed text color to white */
+            color: #00ff00; /* Changed text color to green */
             z-index: 1;
             display: none;
         }
@@ -63,6 +64,10 @@
             padding: 10px 20px;
             font-size: 16px;
             font-family: inherit; /* Inherit font from body */
+            background-color: #000; /* Changed button background color to black */
+            color: #00ff00; /* Changed button text color to green */
+            border: 2px solid #00ff00; /* Changed button border color to green */
+            cursor: pointer;
         }
         #countdown {
             position: absolute;
@@ -70,7 +75,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 480px; /* Make the font size fit right in the game area */
-            color: #d3d3d3; /* Light grey color for the numbers */
+            color: #00ff00; /* Changed text color to green */
             display: none;
         }
         #info {
@@ -78,7 +83,7 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            color: #000; /* Changed text color to black */
+            color: #00ff00; /* Changed text color to green */
             font-size: 18px;
             font-family: inherit; /* Inherit font from body */
         }
@@ -88,7 +93,7 @@
             left: 50%;
             transform: translateX(-50%);
             padding: 10px;
-            color: #000; /* Changed text color to black */
+            color: #00ff00; /* Changed text color to green */
             font-size: 18px;
             font-family: inherit; /* Inherit font from body */
         }
@@ -97,6 +102,9 @@
             padding: 10px;
             font-size: 16px;
             font-family: inherit; /* Inherit font from body */
+            background-color: #000; /* Changed input background color to black */
+            color: #00ff00; /* Changed input text color to green */
+            border: 2px solid #00ff00; /* Changed input border color to green */
         }
     </style>
 </head>
@@ -163,7 +171,7 @@
             ctx.quadraticCurveTo(x, y, x + radius, y);
             ctx.closePath();
             ctx.fill();
-            ctx.strokeStyle = '#000'; // Changed stroke color to black
+            ctx.strokeStyle = '#00ff00'; // Changed stroke color to green
             ctx.lineWidth = 2;
             ctx.stroke();
         }
