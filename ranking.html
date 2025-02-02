@@ -13,7 +13,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #000; /* Background color black */
+            background-color: #fff; /* Background color white */
             font-family: 'Press Start 2P', cursive; /* Font arcade style */
             color: #00ff00; /* Text color green */
         }
@@ -28,7 +28,7 @@
             text-align: left;
         }
         th {
-            background-color: #000; /* Background color black */
+            background-color: #fff; /* Background color white */
             color: #00ff00; /* Text color green */
         }
         h1 {
@@ -40,7 +40,17 @@
             padding: 10px 20px;
             font-size: 16px;
             font-family: inherit; /* Inherit font from body */
-            background-color: #000; /* Button background color black */
+            background-color: #fff; /* Button background color white */
+            color: #00ff00; /* Button text color green */
+            border: 2px solid #00ff00; /* Button border color green */
+            cursor: pointer;
+        }
+        #eraseRecords {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: inherit; /* Inherit font from body */
+            background-color: #fff; /* Button background color white */
             color: #00ff00; /* Button text color green */
             border: 2px solid #00ff00; /* Button border color green */
             cursor: pointer;
@@ -64,6 +74,7 @@
             </tbody>
         </table>
         <button id="playAgain" onclick="location.href='index.html'">Play Again</button>
+        <button id="eraseRecords" onclick="eraseRanking()">Erase Records</button>
     </div>
     <script>
         function loadRanking() {
@@ -84,6 +95,11 @@
                 `;
                 rankingTableBody.appendChild(row);
             });
+        }
+
+        function eraseRanking() {
+            localStorage.removeItem('snakeGameRanking');
+            loadRanking();
         }
 
         window.onload = loadRanking;
