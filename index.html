@@ -107,7 +107,7 @@
     <div id="gameOverScreen">
         <div id="gameOverMessage"></div>
         <input type="text" id="nameInput" placeholder="Enter your name" />
-        <button onclick="recordScore()">Submit</button>
+        <button onclick="recordScore()">Next</button>
         <button onclick="location.reload()">Restart</button> <!-- Refresh the website -->
     </div>
     <div id="countdown"></div>
@@ -201,7 +201,7 @@
             const head = { x: snake[0].x + direction.x * gridSize, y: snake[0].y + direction.y * gridSize, color: foodColor };
 
             if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-                document.getElementById('gameOverMessage').innerText = `Game Over. Your score: ${score.toFixed(2)}`;
+                document.getElementById('gameOverMessage').innerHTML = `Game Over. Your score: ${score.toFixed(2)}<br>Enter your name to save your score:`;
                 document.getElementById('gameOverScreen').style.display = 'flex';
                 gameOver = true;
                 return;
@@ -354,14 +354,13 @@
             const playerName = document.getElementById('nameInput').value;
             if (playerName) {
                 const scoreEntry = {
-                    date: new Date().toLocaleString(),
+                    date: new Date().toLocaleDateString('en-GB'), // Format date to dd-mm-yy
                     name: playerName,
                     score: score.toFixed(2)
                 };
                 let rankingData = JSON.parse(localStorage.getItem('snakeGameRanking')) || [];
                 rankingData.push(scoreEntry);
                 localStorage.setItem('snakeGameRanking', JSON.stringify(rankingData));
-                alert(`Score recorded for ${playerName}: ${score.toFixed(2)}`);
                 location.href = 'ranking.html'; // Redirect to ranking page
             } else {
                 alert('Please enter your name.');

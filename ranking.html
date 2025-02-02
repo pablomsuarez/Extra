@@ -48,6 +48,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Rank</th>
                     <th>Date</th>
                     <th>Name</th>
                     <th>Score</th>
@@ -65,10 +66,14 @@
             const rankingTableBody = document.getElementById('rankingTableBody');
             rankingTableBody.innerHTML = '';
 
-            rankingData.forEach(entry => {
+            rankingData.sort((a, b) => b.score - a.score); // Sort by score in descending order
+
+            rankingData.forEach((entry, index) => {
                 const row = document.createElement('tr');
+                const formattedDate = new Date(entry.date).toLocaleDateString('en-GB'); // Format date to dd-mm-yy
                 row.innerHTML = `
-                    <td>${entry.date}</td>
+                    <td>${index + 1}</td>
+                    <td>${formattedDate}</td>
                     <td>${entry.name}</td>
                     <td>${entry.score}</td>
                 `;
