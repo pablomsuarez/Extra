@@ -132,7 +132,8 @@
         function init() {
             canvas = document.getElementById('gameCanvas');
             ctx = canvas.getContext('2d');
-            startGame(); // Start the game after loading the website
+            // Wait for 'S' key press to start the game
+            window.addEventListener('keydown', startGameListener);
         }
 
         function resetGame() {
@@ -144,12 +145,12 @@
             direction = { x: 1, y: 0 };
             score = 0;
             gameOver = false;
-            placeFood();
+            resetFood();
             startTime = Date.now();
             gameLoop();
         }
 
-        function placeFood() {
+        function resetFood() {
             food = {
                 x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
                 y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize,
@@ -192,7 +193,7 @@
             snake.unshift(head);
             if (head.x === food.x && head.y === food.y) {
                 score++;
-                placeFood();
+                resetFood();
             } else {
                 snake.pop();
             }
@@ -349,39 +350,6 @@
             return /Mobi|Android/i.test(navigator.userAgent);
         }
 
-        function startGame() {
-            document.getElementById('startScreen').style.display = 'none';
-            startCountdown();
-        }
-
-        function startCountdown() {
-            const countdownElement = document.getElementById('countdown');
-            let countdown = 3;
-            countdownElement.innerText = countdown;
-            countdownElement.style.display = 'block';
-
-            const countdownInterval = setInterval(() => {
-                countdown--;
-                if (countdown > 0) {
-                    countdownElement.innerText = countdown;
-                } else {
-                    clearInterval(countdownInterval);
-                    countdownElement.style.display = 'none';
-                    beginGame();
-                }
-            }, 1000);
-        }
-
-        function beginGame() {
-            window.removeEventListener('keydown', startGameListener);
-            window.addEventListener('keydown', handleKeydown);
-            score = 0; // Reset score
-            gameOver = false; // Reset game over state
-            resetFood();
-            startTime = Date.now(); // Set start time
-            gameLoop();
-        }
-
         function startGameListener(e) {
             if (e.key === 's' || e.key === 'S') {
                 startGame();
@@ -421,11 +389,7 @@
         if (isMobileDevice()) {
             document.addEventListener('touchstart', handleSwipeStart, false);
             document.addEventListener('touchmove', handleSwipeMove, false);
-        } else {
-            // Remove the event listener for the 'S' key
         }
-
-        window.onload = startGame; // Start the game after loading the website
 
         let xDown = null;
         let yDown = null;
