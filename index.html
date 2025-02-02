@@ -138,6 +138,10 @@
         function init() {
             canvas = document.getElementById('gameCanvas');
             ctx = canvas.getContext('2d');
+            if (isMobileDevice()) {
+                canvas.width = window.innerWidth * 0.8; // Set canvas width to 80% of the window width
+                canvas.height = window.innerHeight * 0.8; // Set canvas height to 80% of the window height
+            }
             // Wait for 'S' key press to start the game
             window.addEventListener('keydown', startGameListener);
         }
