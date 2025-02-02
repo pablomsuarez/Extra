@@ -208,8 +208,9 @@
 
             snake.unshift(head);
             if (head.x === food.x && head.y === food.y) {
-                score++;
+                score += 10; // Increment score by 10
                 speed *= 0.98; // Increase speed by 2%
+                snake[0].color = food.color; // Set the color of the new segment to the color of the food
                 resetFood();
             } else {
                 snake.pop();
@@ -307,6 +308,8 @@
                     drawEyes(ctx, segment.x, segment.y, gridSize);
                 }
             });
+
+            document.getElementById('score').innerText = score; // Update score display
         }
 
         function update() {
@@ -335,7 +338,7 @@
             score = 0; // Reset score
             foodCount = 0; // Reset food count
             speed = 120; // Reset speed
-            document.getElementById('score').innerText = score.toFixed(2);
+            document.getElementById('score').innerText = score; // Reset score display
             gameOver = false; // Reset game over state
             resetFood();
             startTime = Date.now(); // Reset start time
@@ -418,7 +421,7 @@
             if (playerName && playerName.length <= 12) {
                 const scoreEntry = {
                     name: playerName,
-                    score: Math.floor(score) // Save score as natural number
+                    score: score // Save score
                 };
                 let rankingData = JSON.parse(localStorage.getItem('snakeGameRanking')) || [];
                 rankingData.push(scoreEntry);
