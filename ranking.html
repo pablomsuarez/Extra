@@ -15,7 +15,7 @@
             margin: 0;
             background-color: #fff; /* Background color white */
             font-family: 'Press Start 2P', cursive; /* Font arcade style */
-            color: #00ff00; /* Text color green */
+            color: #006400; /* Text color dark green */
         }
         table {
             border-collapse: collapse;
@@ -23,13 +23,13 @@
             margin: 20px;
         }
         th, td {
-            border: 1px solid #00ff00; /* Border color green */
+            border: 1px solid #006400; /* Border color dark green */
             padding: 10px;
             text-align: left;
         }
         th {
             background-color: #fff; /* Background color white */
-            color: #00ff00; /* Text color green */
+            color: #006400; /* Text color dark green */
         }
         h1 {
             font-size: 24px;
@@ -41,18 +41,8 @@
             font-size: 16px;
             font-family: inherit; /* Inherit font from body */
             background-color: #fff; /* Button background color white */
-            color: #00ff00; /* Button text color green */
-            border: 2px solid #00ff00; /* Button border color green */
-            cursor: pointer;
-        }
-        #eraseRecords {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-family: inherit; /* Inherit font from body */
-            background-color: #fff; /* Button background color white */
-            color: #00ff00; /* Button text color green */
-            border: 2px solid #00ff00; /* Button border color green */
+            color: #006400; /* Button text color dark green */
+            border: 2px solid #006400; /* Button border color dark green */
             cursor: pointer;
         }
     </style>
@@ -74,7 +64,6 @@
             </tbody>
         </table>
         <button id="playAgain" onclick="location.href='index.html'">Play Again</button>
-        <button id="eraseRecords" onclick="eraseRanking()">Erase Records</button>
     </div>
     <script>
         function loadRanking() {
@@ -95,11 +84,6 @@
                 `;
                 rankingTableBody.appendChild(row);
             });
-        }
-
-        function eraseRanking() {
-            localStorage.removeItem('snakeGameRanking');
-            loadRanking();
         }
 
         window.onload = loadRanking;

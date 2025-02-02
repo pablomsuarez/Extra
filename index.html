@@ -13,12 +13,12 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #fff; /* Changed background color to white */
-            font-family: 'Press Start 2P', cursive; /* Changed font to arcade style */
-            color: #00ff00; /* Changed text color to green */
+            background-color: #fff; /* Background color white */
+            font-family: 'Press Start 2P', cursive; /* Font arcade style */
+            color: #006400; /* Text color dark green */
         }
         canvas {
-            border: 3px solid #00ff00; /* Changed border color to green */
+            border: 3px solid #006400; /* Border color dark green */
         }
         #startScreen {
             position: absolute;
@@ -26,12 +26,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.9); /* Changed background color to white */
+            background-color: rgba(255, 255, 255, 0.9); /* Background color white */
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            color: #00ff00; /* Changed text color to green */
+            color: #006400; /* Text color dark green */
             z-index: 1;
         }
         #pausedLabel {
@@ -40,7 +40,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 24px;
-            color: #00ff00; /* Changed text color to green */
+            color: #006400; /* Text color dark green */
             display: none;
         }
         #gameOverScreen {
@@ -49,13 +49,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.9); /* Changed background color to white */
+            background-color: rgba(255, 255, 255, 0.9); /* Background color white */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            color: #00ff00; /* Changed text color to green */
+            color: #006400; /* Text color dark green */
             z-index: 1;
             display: none;
         }
@@ -64,9 +64,9 @@
             padding: 10px 20px;
             font-size: 16px;
             font-family: inherit; /* Inherit font from body */
-            background-color: #fff; /* Changed button background color to white */
-            color: #00ff00; /* Changed button text color to green */
-            border: 2px solid #00ff00; /* Changed button border color to green */
+            background-color: #fff; /* Button background color white */
+            color: #006400; /* Button text color dark green */
+            border: 2px solid #006400; /* Button border color dark green */
             cursor: pointer;
         }
         #countdown {
@@ -75,7 +75,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 480px; /* Make the font size fit right in the game area */
-            color: #00ff00; /* Changed text color to green */
+            color: #006400; /* Text color dark green */
             display: none;
         }
         #info {
@@ -83,7 +83,7 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            color: #00ff00; /* Changed text color to green */
+            color: #006400; /* Text color dark green */
             font-size: 18px;
             font-family: inherit; /* Inherit font from body */
         }
@@ -93,7 +93,7 @@
             left: 50%;
             transform: translateX(-50%);
             padding: 10px;
-            color: #00ff00; /* Changed text color to green */
+            color: #006400; /* Text color dark green */
             font-size: 18px;
             font-family: inherit; /* Inherit font from body */
         }
@@ -102,9 +102,9 @@
             padding: 10px;
             font-size: 16px;
             font-family: inherit; /* Inherit font from body */
-            background-color: #fff; /* Changed input background color to white */
-            color: #00ff00; /* Changed input text color to green */
-            border: 2px solid #00ff00; /* Changed input border color to green */
+            background-color: #fff; /* Input background color white */
+            color: #006400; /* Input text color dark green */
+            border: 2px solid #006400; /* Input border color dark green */
         }
     </style>
 </head>
@@ -171,7 +171,7 @@
             ctx.quadraticCurveTo(x, y, x + radius, y);
             ctx.closePath();
             ctx.fill();
-            ctx.strokeStyle = '#00ff00'; // Changed stroke color to green
+            ctx.strokeStyle = '#006400'; // Changed stroke color to dark green
             ctx.lineWidth = 2;
             ctx.stroke();
         }
