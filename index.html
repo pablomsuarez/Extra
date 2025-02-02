@@ -209,8 +209,7 @@
                 snake.unshift(head);
 
                 if (head.x === food.x && head.y === food.y) {
-                    const elapsedTime = (Date.now() - startTime) / 1000; // Calculate elapsed time in seconds
-                    score += foodCount * elapsedTime;
+                    score += (foodCount + 1) * 2; // Increment score by (foodCount + 1) * 2
                     foodCount++;
                     document.getElementById('score').innerText = score.toFixed(2); // Display score with two decimal places
                     resetFood();
