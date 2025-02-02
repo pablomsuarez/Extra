@@ -379,10 +379,15 @@
 
             if (Math.abs(xDiff) > Math.abs(yDiff)) {
                 if (xDiff > 0) {
-                    /* left swipe */
+                    if (direction.x === 0) direction = { x: -1, y: 0 }; // left swipe
                 } else {
-                    /* right swipe */
-                    startGame();
+                    if (direction.x === 0) direction = { x: 1, y: 0 }; // right swipe
+                }
+            } else {
+                if (yDiff > 0) {
+                    if (direction.y === 0) direction = { x: 0, y: -1 }; // up swipe
+                } else {
+                    if (direction.y === 0) direction = { x: 0, y: 1 }; // down swipe
                 }
             }
             /* reset values */
@@ -393,6 +398,9 @@
         if (isMobileDevice()) {
             document.addEventListener('touchstart', handleSwipeStart, false);
             document.addEventListener('touchmove', handleSwipeMove, false);
+            document.addEventListener('touchend', startGame, { once: true }); // Start game on touch
+        } else {
+            window.addEventListener('keydown', startGameListener, { once: true });
         }
 
         let xDown = null;
