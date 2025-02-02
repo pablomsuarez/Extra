@@ -84,6 +84,12 @@
         }
 
         window.onload = loadRanking;
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'S' || event.key === 's') {
+                location.href = 'index.html';
+            }
+        });
     </script>
 </body>
 </html>
